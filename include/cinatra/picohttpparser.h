@@ -94,12 +94,14 @@ struct phr_chunked_decoder {
 
 /* $Id: a707070d11d499609f99d09f97535642cec910a8 $ */
 
+#ifndef BRANCH_HINTS_ALREADY_INCLUDED
 #if __GNUC__ >= 3
 #define likely(x) __builtin_expect(!!(x), 1)
 #define unlikely(x) __builtin_expect(!!(x), 0)
 #else
 #define likely(x) (x)
 #define unlikely(x) (x)
+#endif
 #endif
 
 #ifdef _MSC_VER
