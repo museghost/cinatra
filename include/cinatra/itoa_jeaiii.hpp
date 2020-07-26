@@ -63,7 +63,7 @@ namespace cinatra {
     // 2 chars at a time
 
     struct pair { char t, o; };
-#define CINATRAP(T) { T, '0',  T, '1', T, '2', T, '3', T, '4', T, '5', T, '6', T, '7', T, '8', T, '9' }
+#define CINATRAP(T) {T, '0'},  {T, '1'}, {T, '2'}, {T, '3'}, {T, '4'}, {T, '5'}, {T, '6'}, {T, '7'}, {T, '8'}, {T, '9'}
 #ifdef __APPLE__
     static const pair s_pairs[] = { CINATRAP('0'), CINATRAP('1'), CINATRAP('2'), CINATRAP('3'), CINATRAP('4'), CINATRAP('5'), CINATRAP('6'), CINATRAP('7'), CINATRAP('8'), CINATRAP('9') };
 #else
