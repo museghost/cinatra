@@ -64,7 +64,11 @@ namespace cinatra {
 
     struct pair { char t, o; };
 #define CINATRAP(T) T, '0',  T, '1', T, '2', T, '3', T, '4', T, '5', T, '6', T, '7', T, '8', T, '9'
+#ifdef __APPLE__
+    static const pair s_pairs[] = { { CINATRAP('0'), CINATRAP('1'), CINATRAP('2'), CINATRAP('3'), CINATRAP('4'), CINATRAP('5'), CINATRAP('6'), CINATRAP('7'), CINATRAP('8'), CINATRAP('9')} };
+#else
     static const pair s_pairs[] = { CINATRAP('0'), CINATRAP('1'), CINATRAP('2'), CINATRAP('3'), CINATRAP('4'), CINATRAP('5'), CINATRAP('6'), CINATRAP('7'), CINATRAP('8'), CINATRAP('9') };
+#endif
 
 #define CINATRAW(N, I) *(pair*)&b[N] = s_pairs[I]
 #define CINATRAA(N) t = (uint64_t(1) << (32 + N / 5 * N * 53 / 16)) / uint32_t(1e##N) + 1 + N/6 - N/8, t *= u, t >>= N / 5 * N * 53 / 16, t += N / 6 * 4, CINATRAW(0, t >> 32)
