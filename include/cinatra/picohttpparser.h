@@ -94,14 +94,12 @@ struct phr_chunked_decoder {
 
 /* $Id: a707070d11d499609f99d09f97535642cec910a8 $ */
 
-#ifndef BRANCH_HINTS_ALREADY_INCLUDED
 #if __GNUC__ >= 3
-#define likely(x) __builtin_expect(!!(x), 1)
-#define unlikely(x) __builtin_expect(!!(x), 0)
+#define likely_macro(x) __builtin_expect(!!(x), 1)
+#define unlikely_macro(x) __builtin_expect(!!(x), 0)
 #else
-#define likely(x) (x)
-#define unlikely(x) (x)
-#endif
+#define likely_macro(x) (x)
+#define unlikely_macro(x) (x)
 #endif
 
 #ifdef _MSC_VER
@@ -207,10 +205,10 @@ static const char *get_token_to_eol(const char *buf, const char *buf_end, const 
 		goto FOUND_CTL;
 #else
 	/* find non-printable char within the next 8 bytes, this is the hottest code; manually inlined */
-	while (likely(buf_end - buf >= 8)) {
+	while (likely_macro(buf_end - buf >= 8)) {
 #define DOIT()                                                                                                                     \
     do {                                                                                                                           \
-        if (unlikely(!IS_PRINTABLE_ASCII(*buf)))                                                                                   \
+        if (unlikely_macro(!IS_PRINTABLE_ASCII(*buf)))                                                                                   \
             goto NonPrintable;                                                                                                     \
         ++buf;                                                                                                                     \
     } while (0)
@@ -225,7 +223,7 @@ static const char *get_token_to_eol(const char *buf, const char *buf_end, const 
 #undef DOIT
 		continue;
 	NonPrintable:
-		if ((likely((unsigned char)*buf < '\040') && likely(*buf != '\011')) || unlikely(*buf == '\177')) {
+		if ((likely_macro((unsigned char)*buf < '\040') && likely_macro(*buf != '\011')) || unlikely_macro(*buf == '\177')) {
 			goto FOUND_CTL;
 		}
 		++buf;
@@ -233,14 +231,14 @@ static const char *get_token_to_eol(const char *buf, const char *buf_end, const 
 #endif
 	for (;; ++buf) {
 		CHECK_EOF();
-		if (unlikely(!IS_PRINTABLE_ASCII(*buf))) {
-			if ((likely((unsigned char)*buf < '\040') && likely(*buf != '\011')) || unlikely(*buf == '\177')) {
+		if (unlikely_macro(!IS_PRINTABLE_ASCII(*buf))) {
+			if ((likely_macro((unsigned char)*buf < '\040') && likely_macro(*buf != '\011')) || unlikely_macro(*buf == '\177')) {
 				goto FOUND_CTL;
 			}
 		}
 	}
 FOUND_CTL:
-	if (likely(*buf == '\015')) {
+	if (likely_macro(*buf == '\015')) {
 		++buf;
 		EXPECT_CHAR('\012');
 		*token_len = buf - 2 - token_start;
