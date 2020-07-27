@@ -138,7 +138,7 @@ struct phr_chunked_decoder {
         while (1) {                                                                                                                \
             if (*buf == ' ') {                                                                                                     \
                 break;                                                                                                             \
-            } else if (unlikely(!IS_PRINTABLE_ASCII(*buf))) {                                                                      \
+            } else if (unlikely_macro(!IS_PRINTABLE_ASCII(*buf))) {                                                                      \
                 if ((unsigned char)*buf < '\040' || *buf == '\177') {                                                              \
                     *ret = -1;                                                                                                     \
                     return NULL;                                                                                                   \
